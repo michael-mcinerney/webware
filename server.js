@@ -55,5 +55,5 @@ app.post('/upload', upload.single('file'), (req, res) => {
   res.send(`File uploaded: ${filename}, MIME type: ${mimetype}`);
 });
 
-app.listen( process.env.PORT )
+app.listen( 3001 )
 
