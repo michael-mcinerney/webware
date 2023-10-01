@@ -51,11 +51,15 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
       var leftSamples = [];
       var rightSamples = [];
-      for(var i = 0; i < 100; i++) {
-        var left1 = buff[(i*4)+0];
-        var left2 = buff[(i*4)+1];
-        var right1 = buff[(i*4)+2];
-        var right2 = buff[(i*4)+3];
+
+      const offset = 44;
+      while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
+        offset+=4;
+      } for(var i = 0; i < 100; i++) {
+        var left1 = buff[offset+(i*4)+0];
+        var left2 = buff[offset+(i*4)+1];
+        var right1 = buff[offset+(i*4)+2];
+        var right2 = buff[offset+(i*4)+3];
 
         var left = left1+(left2*256);
         var right = right1+(right2*256);
@@ -73,7 +77,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     });
     
   // res.send(`File uploaded: ${filename}, MIME type: ${mimetype}`);
-  
+
 });
 
 app.listen( 3001 )
