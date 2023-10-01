@@ -8,6 +8,8 @@ const lame = require('node-lame').Lame;
 const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage: storage });
 
+var buff = null;
+
 const express    = require('express'),
       app        = express(),
       audio      = [];
@@ -44,15 +46,34 @@ app.post('/upload', upload.single('file'), (req, res) => {
   decoder.decode()
     .then(() => {
       // Decoding finished
-      const buffer = decoder.getBuffer();
-      console.log(buffer);
+      buff = decoder.getBuffer();
+      console.log(buff);
+
+      var leftSamples = [];
+      var rightSamples = [];
+      for(var i = 0; i < 100; i++) {
+        var left1 = buff[(i*4)+0];
+        var left2 = buff[(i*4)+1];
+        var right1 = buff[(i*4)+2];
+        var right2 = buff[(i*4)+3];
+
+        var left = left1+(left2*256);
+        var right = right1+(right2*256);
+
+        leftSamples.push(left);
+        rightSamples.push(right);
+      } res.status(200).json({
+        left_samples: leftSamples,
+        right_samples: rightSamples  
+      });
     })
     .catch((error) => {
       // Something went wrong
       console.log(error);
     });
     
-  res.send(`File uploaded: ${filename}, MIME type: ${mimetype}`);
+  // res.send(`File uploaded: ${filename}, MIME type: ${mimetype}`);
+  
 });
 
 app.listen( 3001 )
