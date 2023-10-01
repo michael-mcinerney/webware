@@ -67,9 +67,9 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
         // convert unsigned bit values to 16 bit signed
         if(left&0x8000) {
-          left=-(left&0x7fff);
+          left=-((~left&0x7fff)+1);
         } if(right&0x8000) {
-          right=-(right&0x7fff);
+          right=-((~right&0x7fff)+1);
         } leftSamples.push(left);
         rightSamples.push(right);
       } res.status(200).json({
