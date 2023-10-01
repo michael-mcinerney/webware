@@ -56,6 +56,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
       while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
         offset+=4;
       } for(var i = 0; i < 100; i++) {
+        // interpret pulse modulation
         var left1 = buff[offset+(i*4)+0];
         var left2 = buff[offset+(i*4)+1];
         var right1 = buff[offset+(i*4)+2];
@@ -64,7 +65,12 @@ app.post('/upload', upload.single('file'), (req, res) => {
         var left = left1+(left2*256);
         var right = right1+(right2*256);
 
-        leftSamples.push(left);
+        // convert unsigned bit values to 16 bit signed
+        if(left&0x8000) {
+          left=-(left&0x7fff);
+        } if(right&0x8000) {
+          right=-(right&0x7fff);
+        } leftSamples.push(left);
         rightSamples.push(right);
       } res.status(200).json({
         left_samples: leftSamples,
