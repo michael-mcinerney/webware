@@ -41,13 +41,18 @@ upload.onclick = function(event) {
         formData.append('file', file); // Append the file to the FormData object
 
         // Make a POST request to your server to handle the file upload
+        console.log("File upload has been acknowledged");
         fetch('/upload', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: formData,
         })
-        .then( response => { if(response.ok) return response.json() })
+        .then( response => { if(response.ok) {
+            console.log("response is okay");
+            return response.json(); }
+        })
         .then( json => {
+            console.log("json is being routed");
             console.log(json);
             drawWaveform(json.left_samples);
         })
