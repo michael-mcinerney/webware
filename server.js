@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/upload', upload.single('file'), (req, res) => {
+  res.writeHead( 200, { 'Content-Type': 'application/json' });
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
   }
