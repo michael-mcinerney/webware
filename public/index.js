@@ -37,6 +37,7 @@ upload.onclick = function(event) {
     console.log("upload has been clicked, no actions performed yet");
   
     const file = document.getElementById("file")[0];
+    console.log(file);
     if (file) {
         const formData = new FormData();
         formData.append('file', file); // Append the file to the FormData object
