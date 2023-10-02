@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
-  } res.setHeader("Content-Type", "text/plain");
+  }
 
   // The uploaded file is available as req.file
   const uploadedFile = req.file;
@@ -75,7 +75,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
       } const responseObj = {
         left_samples: leftSamples,
         right_samples: rightSamples
-      }; res.status(200).send(JSON.stringify(responseObj)); return;
+      }; res.status(200).json(responseObj); return;
 
       // graph elements from server
     })
