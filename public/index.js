@@ -34,6 +34,7 @@ function drawWaveform(data) {
 upload.onclick = function(event) {
     // stop our form submission from refreshing the page
     event.preventDefault();
+    console.log("upload has been clicked, no actions performed yet");
   
     const file = document.getElementById("file")[0];
     if (file) {
