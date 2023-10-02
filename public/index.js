@@ -9,7 +9,7 @@ function drawWaveform(left,right) {
     const height = waveformCanvas.height;
 
     context.clearRect(0, 0, width, height);
-    context.strokeStyle = 'blue';
+    context.strokeStyle = 'rgba(0,0,255,0.5)';
     context.lineWidth = 2;
 
     context.beginPath();
@@ -19,7 +19,7 @@ function drawWaveform(left,right) {
     // begin left samples
     let x = 0;
     for (let i = 0; i < left.length; i++) {
-        const y = (((left[i] / 32768.0) * (height/2)) + (height/4));
+        const y = (((left[i] / 32768.0) * (height/2)) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
         } else {
@@ -29,12 +29,13 @@ function drawWaveform(left,right) {
     }
 
     context.stroke();
+    context.strokeStyle = 'rgba(0,255,0,0.5)';
 
     // begin right samples
     x = 0;
     context.beginPath();
     for (let i = 0; i < right.length; i++) {
-        const y = (((right[i] / 32768.0) * (height/2)) + (3*height/4));
+        const y = (((right[i] / 32768.0) * (height)) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
         } else {
