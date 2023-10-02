@@ -4,7 +4,7 @@ const waveformCanvas = document.getElementById('waveformCanvas');
 const context = waveformCanvas.getContext('2d');
 
 // Function to draw the audio waveform
-function drawWaveform(data) {
+function drawWaveform(left,right) {
     const width = waveformCanvas.width;
     const height = waveformCanvas.height;
 
@@ -16,9 +16,25 @@ function drawWaveform(data) {
 
     const sliceWidth = width / data.length;
 
+    // begin left samples
     let x = 0;
-    for (let i = 0; i < data.length; i++) {
-        const y = (((data[i] / 32768.0) * height) + (height/2));
+    for (let i = 0; i < left.length; i++) {
+        const y = (((left[i] / 32768.0) * (height/2)) + (height/4));
+        if (i === 0) {
+            context.moveTo(x, y);
+        } else {
+            context.lineTo(x, y);
+        }
+        x += sliceWidth;
+    }
+
+    context.stroke();
+
+    // begin right samples
+    x = 0;
+    context.beginPath();
+    for (let i = 0; i < right.length; i++) {
+        const y = (((right[i] / 32768.0) * (height/2)) + (3*height/4));
         if (i === 0) {
             context.moveTo(x, y);
         } else {
@@ -55,7 +71,7 @@ upload.onclick = function(event) {
         .then( json => {
             console.log("json is being routed");
             console.log(json);
-            drawWaveform(json.left_samples);
+            drawWaveform(json.left_samples,json.right_samples);
         })
         .catch(error => {
             console.error('Error:', error);
