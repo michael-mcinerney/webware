@@ -36,7 +36,7 @@ upload.onclick = function(event) {
     event.preventDefault();
     console.log("upload has been clicked, no actions performed yet");
   
-    const file = document.getElementById("file")[0];
+    const file = document.getElementById("file").files[0];
     console.log(file);
     if (file) {
         const formData = new FormData();
