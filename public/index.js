@@ -6,27 +6,46 @@ const context = waveformCanvas.getContext('2d');
 var leftWVF = [];
 var rightWVF = [];
 
-// const dashboard = document.getElementById("wvf_controls");
-// const defaultDisplay = dashboard.style.display;
-// dashboard.style.display = "none";
+const leftColor = document.getElementById("leftColorPicker");
+const rightColor = document.getElementById("rightColorPicker");
+
+leftColor.addEventListener("input", drawWaveform);
+rightColor.addEventListener("input", drawWaveform);
+
+function getRGB(colorPicker) {
+    // Get the selected color in hexadecimal format (e.g., "#RRGGBB")
+    const hex = colorPicker.value;
+
+    // Remove the '#' character, if present
+    hex = hex.replace(/^#/, '');
+
+    // Parse the hexadecimal values for red, green, and blue components
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+
+    // Return the RGB color in the "rgb(r, g, b)" format
+    return [r,g,b];
+}
 
 // Function to draw the audio waveform
-function drawWaveform(left,right) {
+function drawWaveform() {
     const width = waveformCanvas.width;
     const height = waveformCanvas.height;
 
     context.clearRect(0, 0, width, height);
-    context.strokeStyle = 'rgba(0,0,255,0.5)';
+    let rgb = getRGB(leftColor);
+    context.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`;
     context.lineWidth = 2;
 
     context.beginPath();
 
-    const sliceWidth = width / left.length;
+    const sliceWidth = width / leftWVF.length;
 
     // begin left samples
     let x = 0;
-    for (let i = 0; i < left.length; i++) {
-        const y = (((left[i] / 32768.0) * (height/2)) + (height/2));
+    for (let i = 0; i < leftWVF.length; i++) {
+        const y = (((leftWVF[i] / 32768.0) * (height/2)) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
         } else {
@@ -36,13 +55,14 @@ function drawWaveform(left,right) {
     }
 
     context.stroke();
-    context.strokeStyle = 'rgba(0,255,0,0.5)';
+    rgb = getRGB(rightColor);
+    context.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`;
 
     // begin right samples
     x = 0;
     context.beginPath();
-    for (let i = 0; i < right.length; i++) {
-        const y = (((right[i] / 32768.0) * (height)) + (height/2));
+    for (let i = 0; i < rightWVF.length; i++) {
+        const y = (((rightWVF[i] / 32768.0) * (height)) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
         } else {
@@ -81,7 +101,7 @@ upload.onclick = function(event) {
             console.log(json);
             leftWVF = json.left_samples; 
             rightWVF = json.right_samples;
-            drawWaveform(leftWVF,rightWVF);
+            drawWaveform();
             // dashboard.style.display = defaultDisplay;
         })
         .catch(error => {
