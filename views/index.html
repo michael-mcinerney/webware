@@ -82,9 +82,14 @@
         // Dark Mode Toggle Functionality
         const darkModeSwitch = document.getElementById('darkModeSwitch');
         darkModeSwitch.addEventListener('change', () => {
+            // Toggle dark mode for body
             document.body.classList.toggle('bg-dark', darkModeSwitch.checked);
-            // Toggle Bootstrap dark mode classes
+            // Toggle Bootstrap dark mode classes for the whole document
             $('#bootstrap-css').toggleClass('bg-dark text-light', darkModeSwitch.checked);
+
+            // Toggle dark mode for specific elements
+            const elementsToToggle = document.querySelectorAll('.bg-light, .text-dark');
+            elementsToToggle.forEach(element => element.classList.toggle('bg-dark text-light', darkModeSwitch.checked));
         });
     </script>
 </body>
