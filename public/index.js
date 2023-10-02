@@ -46,7 +46,6 @@ upload.onclick = function(event) {
         console.log("File upload has been acknowledged");
         fetch('/upload', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: formData,
         })
         .then( response => { if(response.ok) {
