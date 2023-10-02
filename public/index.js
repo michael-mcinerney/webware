@@ -24,4 +24,5 @@ upload.onclick = function(event) {
             console.error('Error:', error);
         });
     }
+    // visualize waveform on client side
 };

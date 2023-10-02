@@ -76,6 +76,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
         left_samples: leftSamples,
         right_samples: rightSamples  
       });
+
+      // graph elements from server
     })
     .catch((error) => {
       // Something went wrong
