@@ -31,7 +31,7 @@ function audioPlayback() {
     // Copy your audio data into the AudioBuffer
     const leftChannelData = buffer.getChannelData(0);
     const rightChannelData = buffer.getChannelData(1);
-    for (let i = 0; i < audioBuffer.length; i++) {
+    for (let i = 0; i < leftWVF.length; i++) {
         leftChannelData[i] = (leftWVF[i]/32768.0);
         rightChannelData[i] = (rightWVF[i]/32768.0);
     }
