@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>File Upload Form</title>
+    <title>Audio File Visualizer</title>
     <meta charset="UTF-8">
     <meta name="description" content="Audio visualizer.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Audio File Visualizer</title>
-
-    <script type="module" src="index.js" defer></script>
-    <link rel="stylesheet" href="style.css" type="text/css">
 
     <!-- Include Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -17,11 +13,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="module" src="index.js" defer></script>
 </head>
 <body>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <!-- File Upload Section -->
+            <div class="col-md-6">
                 <h2 class="accent-color">Upload a File</h2>
                 <form action="upload" method="post" enctype="multipart/form-data">
                     <div class="form-group">
@@ -32,31 +32,37 @@
                     <input type="submit" class="btn btn-primary" value="Upload" id="upload">
                 </form>
             </div>
+
+            <!-- Dashboard Section -->
+            <div class="col-md-6">
+                <h2 class="accent-color">Dashboard</h2>
+                <div class="form-group">
+                    <label for="leftColorPicker" class="accent-color">Left Waveform Color:</label>
+                    <input type="color" class="form-control" id="leftColorPicker" value="#0000FF">
+                </div>
+                <div class="form-group">
+                    <label for="leftOpacitySlider" class="accent-color">Left Waveform Opacity:</label>
+                    <input type="range" class="form-control-range" id="leftOpacitySlider" min="0" max="1" step="0.1" value="1">
+                </div>
+                <div class="form-group">
+                    <label for="rightColorPicker" class="accent-color">Right Waveform Color:</label>
+                    <input type="color" class="form-control" id="rightColorPicker" value="#FF0000">
+                </div>
+                <div class="form-group">
+                    <label for="rightOpacitySlider" class="accent-color">Right Waveform Opacity:</label>
+                    <input type="range" class="form-control-range" id="rightOpacitySlider" min="0" max="1" step="0.1" value="1">
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Canvas container below the form -->
-    <div class="container mt-5" id="canvasDiv">
-        <canvas id="waveformCanvas" width="800" height="400"></canvas>
-    </div>
-    <!-- Color pickers for the waveforms -->
-    <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
-    <div class="container mt-3" id="wvf_controls">
-        <h3 class="accent-color">Waveform Controls</h3>
-        <div class="form-group">
-            <label for="leftColorPicker" class="accent-color">Left Waveform Color:</label>
-            <input type="color" class="form-control" id="leftColorPicker" value="#0000FF">
-        </div>
-        <div class="form-group">
-            <label for="leftOpacitySlider" class="accent-color">Left Waveform Opacity:</label>
-            <input type="range" class="form-control-range" id="leftOpacitySlider" min="0" max="1" step="0.1" value="1">
-        </div>
-        <div class="form-group">
-            <label for="rightColorPicker" class="accent-color">Right Waveform Color:</label>
-            <input type="color" class="form-control" id="rightColorPicker" value="#FF0000">
-        </div>
-        <div class="form-group">
-            <label for="rightOpacitySlider" class="accent-color">Right Waveform Opacity:</label>
-            <input type="range" class="form-control-range" id="rightOpacitySlider" min="0" max="1" step="0.1" value="1">
+
+    <!-- Waveform Canvas Section -->
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="accent-color">Waveform Canvas</h2>
+                <canvas id="waveformCanvas" width="800" height="400"></canvas>
+            </div>
         </div>
     </div>
 </body>
