@@ -4,3 +4,9 @@
 .btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited {
     background-color: #8064A2 !important;
 }
+
+#canvasDiv {
+    left:50%;
+    position:absolute;
+    transform:translate(-50%,0px);
+}
