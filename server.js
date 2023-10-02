@@ -74,9 +74,9 @@ app.post('/upload', upload.single('file'), (req, res) => {
         } leftSamples.push(left);
         rightSamples.push(right);
       } // Linear interpolation for smoother amplitude values
-      var interpolationFactor = i / range; // Normalize i to range [0, 1]
-      leftSamples.push(left * (1 - interpolationFactor) + leftSamples[i - 1] * interpolationFactor);
-      rightSamples.push(right * (1 - interpolationFactor) + rightSamples[i - 1] * interpolationFactor);
+      // var interpolationFactor = i / range; // Normalize i to range [0, 1]
+      // leftSamples.push(left * (1 - interpolationFactor) + leftSamples[i - 1] * interpolationFactor);
+      // rightSamples.push(right * (1 - interpolationFactor) + rightSamples[i - 1] * interpolationFactor);
       const responseObj = {
         left_samples: leftSamples,
         right_samples: rightSamples
