@@ -21,19 +21,8 @@ const defaultDisplay = playAudio.style.display;
 playAudio.style.display = "none";
 playAudio.addEventListener("click", () => audioPlayback());
 
-var aContext;
-window.addEventListener('load', init, false);
-function init() {
-    try {
-        aContext = (window.AudioContext || window.webkitAudioContext)();
-    }
-    catch(error) {
-        alert('Web Audio API is not supported in this browser');
-    }
-}
-
 function audioPlayback() {
-    var audioContext = aContext;
+    var audioContext = (window.AudioContext || window.webkitAudioContext)();
     const source = audioContext.createBufferSource();
 
     // Create an AudioBuffer to hold your audio data
