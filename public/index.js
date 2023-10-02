@@ -8,9 +8,13 @@ var rightWVF = [];
 
 const leftColor = document.getElementById("leftColorPicker");
 const rightColor = document.getElementById("rightColorPicker");
+const leftOpacity = document.getElementById("leftOpacitySlider");
+const rightOpacity = document.getElementById("rightOpacitySlider");
 
 leftColor.addEventListener("input", drawWaveform);
 rightColor.addEventListener("input", drawWaveform);
+leftOpacity.addEventListener("input", drawWaveform);
+rightOpacity.addEventListener("input", drawWaveform);
 
 function getRGB(colorPicker) {
     // Get the selected color in hexadecimal format (e.g., "#RRGGBB")
@@ -35,7 +39,8 @@ function drawWaveform() {
 
     context.clearRect(0, 0, width, height);
     let rgb = getRGB(leftColor);
-    context.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`;
+    let a = leftOpacity.value;
+    context.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
     context.lineWidth = 2;
 
     context.beginPath();
@@ -56,7 +61,8 @@ function drawWaveform() {
 
     context.stroke();
     rgb = getRGB(rightColor);
-    context.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`;
+    a = rightOpacity.value;
+    context.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
 
     // begin right samples
     x = 0;
