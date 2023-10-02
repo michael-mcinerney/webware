@@ -3,6 +3,13 @@ const upload = document.getElementById("upload");
 const waveformCanvas = document.getElementById('waveformCanvas');
 const context = waveformCanvas.getContext('2d');
 
+var leftWVF = [];
+var rightWVF = [];
+
+const dashboard = document.getElementById("wvf_controls");
+const defaultDisplay = dashboard.style.display;
+dashboard.style.display = "none";
+
 // Function to draw the audio waveform
 function drawWaveform(left,right) {
     const width = waveformCanvas.width;
@@ -72,7 +79,10 @@ upload.onclick = function(event) {
         .then( json => {
             console.log("json is being routed");
             console.log(json);
-            drawWaveform(json.left_samples,json.right_samples);
+            leftWVF = json.left_samples; 
+            rightWVF = json.right_samples;
+            drawWaveform(leftWVF,rightWVF);
+            dashboard.style.display = defaultDisplay;
         })
         .catch(error => {
             console.error('Error:', error);
