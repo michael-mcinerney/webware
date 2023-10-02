@@ -66,53 +66,5 @@
             </div>
         </div>
     </div>
-</body><body>
-    <div class="container mt-5">
-        <div class="row">
-            <!-- File Upload Section -->
-            <div class="col-md-6">
-                <h2 class="accent-color">Upload a File</h2>
-                <form action="upload" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="file" class="accent-color">Select a file:</label>
-                        <input type="file" class="form-control" name="file" id="file" accept=".mp3, .wav" required>
-                    </div>
-                    <br>
-                    <input type="submit" class="btn btn-primary" value="Upload" id="upload">
-                </form>
-            </div>
-
-            <!-- Dashboard Section -->
-            <div class="col-md-6">
-                <h2 class="accent-color">Dashboard</h2>
-                <div class="form-group">
-                    <label for="leftColorPicker" class="accent-color">Left Waveform Color:</label>
-                    <input type="color" class="form-control" id="leftColorPicker" value="#0000FF">
-                </div>
-                <div class="form-group">
-                    <label for="leftOpacitySlider" class="accent-color">Left Waveform Opacity:</label>
-                    <input type="range" class="form-control-range" id="leftOpacitySlider" min="0" max="1" step="0.1" value="1">
-                </div>
-                <div class="form-group">
-                    <label for="rightColorPicker" class="accent-color">Right Waveform Color:</label>
-                    <input type="color" class="form-control" id="rightColorPicker" value="#FF0000">
-                </div>
-                <div class="form-group">
-                    <label for="rightOpacitySlider" class="accent-color">Right Waveform Opacity:</label>
-                    <input type="range" class="form-control-range" id="rightOpacitySlider" min="0" max="1" step="0.1" value="1">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Waveform Canvas Section -->
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="accent-color">Waveform Canvas</h2>
-                <canvas id="waveformCanvas" width="800" height="400"></canvas>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
