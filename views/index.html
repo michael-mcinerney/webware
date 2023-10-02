@@ -69,5 +69,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Dark Mode Toggle Button -->
+    <div class="container mt-3">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="darkModeSwitch">
+            <label class="custom-control-label" for="darkModeSwitch">Dark Mode</label>
+        </div>
+    </div>
+
+    <script>
+        // Dark Mode Toggle Functionality
+        const darkModeSwitch = document.getElementById('darkModeSwitch');
+        darkModeSwitch.addEventListener('change', () => {
+            document.body.classList.toggle('bg-dark', darkModeSwitch.checked);
+            // Toggle Bootstrap dark mode classes
+            $('#bootstrap-css').toggleClass('bg-dark text-light', darkModeSwitch.checked);
+        });
+    </script>
 </body>
 </html>
