@@ -43,6 +43,7 @@ upload.onclick = function(event) {
         // Make a POST request to your server to handle the file upload
         fetch('/upload', {
             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: formData,
         })
         // .then( response => { if(response.ok) return response.json() })
