@@ -14,7 +14,7 @@ function drawWaveform(left,right) {
 
     context.beginPath();
 
-    const sliceWidth = width / data.length;
+    const sliceWidth = width / left.length;
 
     // begin left samples
     let x = 0;
