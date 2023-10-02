@@ -21,6 +21,10 @@ const defaultDisplay = playAudio.style.display;
 playAudio.style.display = "none";
 playAudio.addEventListener("click", () => audioPlayback());
 
+const canvas = document.getElementById("waveformCanvas");
+canvas.style.width = window.innerWidth;
+canvas.style.height = 400;
+
 function audioPlayback() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const source = audioContext.createBufferSource();
