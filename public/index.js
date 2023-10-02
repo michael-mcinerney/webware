@@ -45,10 +45,13 @@ upload.onclick = function(event) {
             method: 'POST',
             body: formData,
         })
-        .then( response => { if(response.ok) return response.json() })
-        .then( json => {
-            console.log(json);
-            drawWaveform(json.left_samples);
+        // .then( response => { if(response.ok) return response.json() })
+        .then( response => {
+            if(response.ok) {
+                const json = response.json();
+                console.log(json);
+                drawWaveform(json.left_samples);
+            }
         })
         .catch(error => {
             console.error('Error:', error);
