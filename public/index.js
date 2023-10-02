@@ -112,7 +112,26 @@ function drawWaveform() {
     }
 
     context.stroke();
+
+    // Display audio frame duration notification
+    displayAudioFrameDuration(leftWVF.length);
 }
+
+function displayAudioFrameDuration(frameLength) {
+    const notificationElement = document.createElement('div');
+    notificationElement.textContent = `Audio Frame Duration: ${frameLength / 44100} seconds`;
+    notificationElement.classList.add('notification');
+
+    // Remove previous notification if exists
+    const previousNotification = document.querySelector('.notification');
+    if (previousNotification) {
+        previousNotification.remove();
+    }
+
+    // Append the notification below the canvas
+    waveformCanvas.parentNode.appendChild(notificationElement);
+}
+
 
 // listen for an upload action
 upload.onclick = function(event) {
