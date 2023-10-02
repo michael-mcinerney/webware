@@ -27,7 +27,7 @@ function init() {
     try {
         aContext = (window.AudioContext || window.webkitAudioContext)();
     }
-    catch(e) {
+    catch(error) {
         alert('Web Audio API is not supported in this browser');
     }
 }
