@@ -18,7 +18,7 @@ function drawWaveform(data) {
 
     let x = 0;
     for (let i = 0; i < data.length; i++) {
-        const y = (((data[i] / 32768.0) * height) - (height/2));
+        const y = (((data[i] / 32768.0) * height) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
         } else {
