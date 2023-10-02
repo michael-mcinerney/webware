@@ -9,4 +9,6 @@
     left:50%;
     position:absolute;
     transform:translate(-50%,0px);
+    width:850px;
+    height:450px;
 }
