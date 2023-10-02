@@ -30,7 +30,7 @@ function drawWaveform(data) {
     context.stroke();
 }
 
-// listen for a login action
+// listen for an upload action
 upload.onclick = function(event) {
     // stop our form submission from refreshing the page
     event.preventDefault();
@@ -46,13 +46,10 @@ upload.onclick = function(event) {
             headers: { 'Content-Type': 'application/json' },
             body: formData,
         })
-        // .then( response => { if(response.ok) return response.json() })
-        .then( response => {
-            if(response.ok) {
-                const json = response.json();
-                console.log(json);
-                drawWaveform(json.left_samples);
-            }
+        .then( response => { if(response.ok) return response.json() })
+        .then( json => {
+            console.log(json);
+            drawWaveform(json.left_samples);
         })
         .catch(error => {
             console.error('Error:', error);
