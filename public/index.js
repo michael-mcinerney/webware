@@ -16,6 +16,40 @@ rightColor.addEventListener("input", drawWaveform);
 leftOpacity.addEventListener("input", drawWaveform);
 rightOpacity.addEventListener("input", drawWaveform);
 
+const playAudio = document.getElementById("play");
+const defaultDisplay = playAudio.style.display;
+playAudio.style.display = "none";
+playAudio.addEventListener("click", () => audioPlayback());
+
+function audioPlayback() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioContext.createBufferSource();
+
+    // Create an AudioBuffer to hold your audio data
+    const buffer = audioContext.createBuffer(2, leftWVF.length, audioContext.sampleRate);
+
+    // Copy your audio data into the AudioBuffer
+    const leftChannelData = buffer.getChannelData(0);
+    const rightChannelData = buffer.getChannelData(1);
+    for (let i = 0; i < audioBuffer.length; i++) {
+        leftChannelData[i] = (leftWVF[i]/32768.0);
+        rightChannelData[i] = (rightWVF[i]/32768.0);
+    }
+
+    // Set the AudioBuffer as the source of the AudioBufferSourceNode
+    source.buffer = buffer;
+
+    // Connect the AudioBufferSourceNode to the AudioContext's destination (speakers)
+    source.connect(audioContext.destination);
+
+    // Start playing the audio
+    source.start();
+
+    // Optional: You can stop the audio after a specified duration (in seconds)
+    const durationInSeconds = buffer.duration;
+    source.stop(audioContext.currentTime + durationInSeconds);
+}
+
 function getRGB(colorPicker) {
     // Get the selected color in hexadecimal format (e.g., "#RRGGBB")
     var hex = colorPicker.value;
@@ -108,7 +142,7 @@ upload.onclick = function(event) {
             leftWVF = json.left_samples; 
             rightWVF = json.right_samples;
             drawWaveform();
-            // dashboard.style.display = defaultDisplay;
+            playAudio.style.display = defaultDisplay;
         })
         .catch(error => {
             console.error('Error:', error);
