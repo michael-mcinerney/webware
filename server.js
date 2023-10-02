@@ -73,10 +73,10 @@ app.post('/upload', upload.single('file'), (req, res) => {
           right=-((~right&0x7fff)+1);
         } leftSamples.push(left);
         rightSamples.push(right);
-      } res.status(200).json({
+      } const responseObj = {
         left_samples: leftSamples,
-        right_samples: rightSamples  
-      });
+        right_samples: rightSamples
+      }; res.status(200).json(responseObj); return;
 
       // graph elements from server
     })
