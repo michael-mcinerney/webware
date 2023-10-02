@@ -14,7 +14,7 @@ rightColor.addEventListener("input", drawWaveform);
 
 function getRGB(colorPicker) {
     // Get the selected color in hexadecimal format (e.g., "#RRGGBB")
-    const hex = colorPicker.value;
+    var hex = colorPicker.value;
 
     // Remove the '#' character, if present
     hex = hex.replace(/^#/, '');
