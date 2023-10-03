@@ -32,7 +32,24 @@
                     <br>
                     <input type="submit" class="btn btn-success" value="Upload" id="upload">
                     <button type="button" class="btn btn-primary" value="Play" id="play">Play Audio</button>
+                    <br>
+                    <div class="audio-controls mt-3">
+                        <button class="btn btn-primary" id="backwardButton">Backward</button>
+                        <button class="btn btn-primary" id="forwardButton">Forward</button>
+                        <div class="range-panel mt-2">
+                            <label for="bufferRange">Buffer Zoom:</label>
+                            <div class="btn-group" role="group" aria-label="Buffer Zoom Buttons">
+                                <button type="button" class="btn btn-secondary" id="zoomInButton">
+                                    <i class="fas fa-search-plus"></i> <!-- Font Awesome icon for zoom in -->
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="zoomOutButton">
+                                    <i class="fas fa-search-minus"></i> <!-- Font Awesome icon for zoom out -->
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
+
             </div>
 
             <!-- Dashboard Section -->
