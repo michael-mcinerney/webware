@@ -9,9 +9,6 @@ const session = require('express-session');
 const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage: storage });
 
-// Configure session through express
-app.use(session({ resave: true, saveUninitialized: true }));
-
 // var buff = null;
 // var range = 5;
 // var start = 0;
@@ -23,6 +20,9 @@ const express    = require('express'),
 app.use( express.static( 'public' ) );
 app.use( express.static( 'views'  ) );
 app.use( express.json() );
+
+// Configure session through express
+app.use(session({ resave: true, saveUninitialized: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
