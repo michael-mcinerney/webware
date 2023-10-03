@@ -21,6 +21,13 @@ const defaultDisplay = playAudio.style.display;
 playAudio.style.display = "none";
 playAudio.addEventListener("click", () => audioPlayback());
 
+const progressBar = document.getElementById('progressBar');
+
+function updateProgressBar(currentTime, duration) {
+    const progressPercentage = (currentTime / duration) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+}
+
 function audioPlayback() {
     var audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const source = audioContext.createBufferSource();
@@ -35,6 +42,31 @@ function audioPlayback() {
         leftChannelData[i] = (leftWVF[i]/32768.0);
         rightChannelData[i] = (rightWVF[i]/32768.0);
     }
+
+    // Add an event listener to update the progress bar during playback
+    source.addEventListener('ended', () => {
+        // Reset the progress bar after playback ends
+        progressBar.style.width = '0%';
+    });
+
+    source.connect(audioContext.destination);
+    source.start();
+
+    // Update the progress bar dynamically
+    const startTime = audioContext.currentTime;
+    const endTime = startTime + durationInSeconds;
+
+    // Use requestAnimationFrame for smoother updates
+    function update() {
+        const currentTime = audioContext.currentTime;
+        updateProgressBar(currentTime - startTime, durationInSeconds);
+
+        if (currentTime < endTime) {
+            requestAnimationFrame(update);
+        }
+    }
+
+    requestAnimationFrame(update);
 
     // Set the AudioBuffer as the source of the AudioBufferSourceNode
     source.buffer = buffer;
