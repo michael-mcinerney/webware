@@ -55,7 +55,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
       var offset = 44;
       while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
         offset+=4;
-      } const range = 220500;
+      } const range = buff.length;
       for(var i = 0; i < range; i++) {
         // interpret pulse modulation
         var left1 = buff[offset+(i*4)+0];
