@@ -132,7 +132,7 @@ function zoomOut() {
 
 
 function audioPlayback() {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)({sampleRate:44100});
     const source = audioContext.createBufferSource();
 
     // Create an AudioBuffer to hold your audio data
