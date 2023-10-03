@@ -181,17 +181,17 @@ function drawWaveform() {
     context.beginPath();
 
     const sliceWidth = width / leftWVF.length;
-
+    const interpolation_factor = 4;
     // begin left samples
     let x = 0;
-    for (let i = 0; i < leftWVF.length; i+=4) {
+    for (let i = 0; i < leftWVF.length; i+=interpolation_factor) {
         const y = (((leftWVF[i] / 32768.0) * (height/2)) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
         } else {
             context.lineTo(x, y);
         }
-        x += sliceWidth;
+        x += (sliceWidth*interpolation_factor);
     }
 
     context.stroke();
@@ -202,14 +202,14 @@ function drawWaveform() {
     // begin right samples
     x = 0;
     context.beginPath();
-    for (let i = 0; i < rightWVF.length; i+=4) {
+    for (let i = 0; i < rightWVF.length; i+=interpolation_factor) {
         const y = (((rightWVF[i] / 32768.0) * (height)) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
         } else {
             context.lineTo(x, y);
         }
-        x += sliceWidth;
+        x += (sliceWidth*interpolation_factor);
     }
 
     context.stroke();
