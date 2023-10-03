@@ -27,7 +27,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/fast-forward', (req, res) => {
-  console.log("Fast forwarding through requested audio by given frame duration.");
   var leftSamples = [];
   var rightSamples = [];
 
@@ -36,7 +35,6 @@ app.post('/fast-forward', (req, res) => {
     offset+=4;
   } start += (range*44100);
   if(start > ((buff.length/4)-(range*44100))) start = ((buff.length/4)-(range*44100));
-  console.log("Start Value: "+start);
   for(var i = start; i < (start+(range*44100)); i++) {
     // interpret pulse modulation
     var left1 = buff[(offset+start*4)+(i*4)+0];
@@ -69,7 +67,7 @@ app.post('/backtrack', (req, res) => {
     offset+=4;
   } start -= (range*44100);
   if(start < 0) start = 0;
-  for(var i = start; i < (range*44100); i++) {
+  for(var i = start; i < (start+(range*44100)); i++) {
     // interpret pulse modulation
     var left1 = buff[(offset+start*4)+(i*4)+0];
     var left2 = buff[(offset+start*4)+(i*4)+1];
