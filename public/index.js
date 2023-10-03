@@ -35,6 +35,9 @@ outZoom.addEventListener("click", () => zoomOut());
 inZoom.addEventListener("click", () => zoomIn());
 
 var audioInfo = document.getElementById("info-capture");
+var total_length = 0;
+var scope = 0;
+var position = 0;
 
 function goBack() {
     fetch('/backtrack', {
@@ -50,6 +53,7 @@ function goBack() {
         console.log(json);
         leftWVF = json.left_samples; 
         rightWVF = json.right_samples;
+        position = json.position;
         drawWaveform();
     })
     .catch(error => {
@@ -72,6 +76,7 @@ function goAhead() {
         console.log(json);
         leftWVF = json.left_samples; 
         rightWVF = json.right_samples;
+        position = json.position;
         drawWaveform();
     })
     .catch(error => {
@@ -94,6 +99,7 @@ function zoomIn() {
         console.log(json);
         leftWVF = json.left_samples; 
         rightWVF = json.right_samples;
+        scope = json.scope;
         drawWaveform();
     })
     .catch(error => {
@@ -116,6 +122,7 @@ function zoomOut() {
         console.log(json);
         leftWVF = json.left_samples; 
         rightWVF = json.right_samples;
+        scope = json.scope;
         drawWaveform();
     })
     .catch(error => {
@@ -171,6 +178,7 @@ function getRGB(colorPicker) {
 
 // Function to draw the audio waveform
 function drawWaveform() {
+    audioInfo.textContent = `Total MP3 Duration: ${total_length.toFixed(2)} seconds, Frame Width: ${scope} seconds, Start Position: ${position}`;
     const width = waveformCanvas.width;
     const height = waveformCanvas.height;
 
@@ -244,7 +252,9 @@ upload.onclick = function(event) {
             console.log(json);
             leftWVF = json.left_samples; 
             rightWVF = json.right_samples;
-            audioInfo.textContent = `Total MP3 Duration: ${json.total_length} seconds`;
+            total_length = json.total_length;
+            scope = json.scope;
+            position = json.position;
             drawWaveform();
 
             playAudio.style.display = defaultDisplay;

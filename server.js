@@ -54,7 +54,9 @@ app.post('/fast-forward', (req, res) => {
     rightSamples.push(right);
   } const responseObj = {
     left_samples: leftSamples,
-    right_samples: rightSamples
+    right_samples: rightSamples,
+    scope: range,
+    position: (start/44100)
   }; res.status(200).json(responseObj); return;
 });
 
@@ -86,7 +88,9 @@ app.post('/backtrack', (req, res) => {
     rightSamples.push(right);
   } const responseObj = {
     left_samples: leftSamples,
-    right_samples: rightSamples
+    right_samples: rightSamples,
+    scope: range,
+    position: (start/44100)
   }; res.status(200).json(responseObj); return;
 });
 
@@ -118,7 +122,9 @@ app.post('/zoom-in', (req, res) => {
     rightSamples.push(right);
   } const responseObj = {
     left_samples: leftSamples,
-    right_samples: rightSamples
+    right_samples: rightSamples,
+    scope: range,
+    position: (start/44100)
   }; res.status(200).json(responseObj); return;
 });
 
@@ -150,7 +156,9 @@ app.post('/zoom-out', (req, res) => {
     rightSamples.push(right);
   } const responseObj = {
     left_samples: leftSamples,
-    right_samples: rightSamples
+    right_samples: rightSamples,
+    scope: range,
+    position: (start/44100)
   }; res.status(200).json(responseObj); return;
 });
 
@@ -206,7 +214,9 @@ app.post('/upload', upload.single('file'), (req, res) => {
       } const responseObj = {
         left_samples: leftSamples,
         right_samples: rightSamples,
-        total_length: ((buff.length/4)/44100)
+        total_length: ((buff.length/4)/44100),
+        scope: range,
+        position: (start/44100)
       }; res.status(200).json(responseObj); return;
 
       // graph elements from server
