@@ -22,7 +22,7 @@ playAudio.style.display = "none";
 playAudio.addEventListener("click", () => audioPlayback());
 
 function audioPlayback() {
-    var audioContext = (window.AudioContext || window.webkitAudioContext)();
+    var audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const source = audioContext.createBufferSource();
 
     // Create an AudioBuffer to hold your audio data
