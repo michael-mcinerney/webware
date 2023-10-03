@@ -184,7 +184,7 @@ function drawWaveform() {
 
     // begin left samples
     let x = 0;
-    for (let i = 0; i < leftWVF.length; i++) {
+    for (let i = 0; i < leftWVF.length; i+=4) {
         const y = (((leftWVF[i] / 32768.0) * (height/2)) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
@@ -202,7 +202,7 @@ function drawWaveform() {
     // begin right samples
     x = 0;
     context.beginPath();
-    for (let i = 0; i < rightWVF.length; i++) {
+    for (let i = 0; i < rightWVF.length; i+=4) {
         const y = (((rightWVF[i] / 32768.0) * (height)) + (height/2));
         if (i === 0) {
             context.moveTo(x, y);
