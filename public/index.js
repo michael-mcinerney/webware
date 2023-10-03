@@ -21,6 +21,9 @@ const defaultDisplay = playAudio.style.display;
 playAudio.style.display = "none";
 playAudio.addEventListener("click", () => audioPlayback());
 
+const audioControls = document.getElementById("audio-controls");
+audioControls.style.display = "none";
+
 function audioPlayback() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const source = audioContext.createBufferSource();
@@ -142,7 +145,10 @@ upload.onclick = function(event) {
             leftWVF = json.left_samples; 
             rightWVF = json.right_samples;
             drawWaveform();
+
             playAudio.style.display = defaultDisplay;
+            audioControls.style.display = defaultDisplay;
+
         })
         .catch(error => {
             console.error('Error:', error);
