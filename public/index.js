@@ -181,7 +181,7 @@ function drawWaveform() {
     context.beginPath();
 
     const sliceWidth = width / leftWVF.length;
-    const interpolation_factor = 10;
+    const interpolation_factor = 20;
     // begin left samples
     let x = 0;
     for (let i = 0; i < leftWVF.length; i+=interpolation_factor) {
