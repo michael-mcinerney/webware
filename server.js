@@ -22,7 +22,7 @@ app.use( express.static( 'views'  ) );
 app.use( express.json() );
 
 // Configure session through express
-app.use(session({ resave: true, saveUninitialized: true }));
+app.use(session({ secret: "234edaf9003e73eec", resave: true, saveUninitialized: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
