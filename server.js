@@ -90,6 +90,70 @@ app.post('/backtrack', (req, res) => {
   }; res.status(200).json(responseObj); return;
 });
 
+app.post('/zoom-in', (req, res) => {
+  var leftSamples = [];
+  var rightSamples = [];
+
+  var offset = 44;
+  while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
+    offset+=4;
+  } range /= 2;
+  if(range < 0.63) range = 0.625;
+  for(var i = start; i < (start+(range*44100)); i++) {
+    // interpret pulse modulation
+    var left1 = buff[(offset+start*4)+(i*4)+0];
+    var left2 = buff[(offset+start*4)+(i*4)+1];
+    var right1 = buff[(offset+start*4)+(i*4)+2];
+    var right2 = buff[(offset+start*4)+(i*4)+3];
+
+    var left = left1+(left2*256);
+    var right = right1+(right2*256);
+
+    // convert unsigned bit values to 16 bit signed
+    if(left&0x8000) {
+      left=-((~left&0x7fff)+1);
+    } if(right&0x8000) {
+      right=-((~right&0x7fff)+1);
+    } leftSamples.push(left);
+    rightSamples.push(right);
+  } const responseObj = {
+    left_samples: leftSamples,
+    right_samples: rightSamples
+  }; res.status(200).json(responseObj); return;
+});
+
+app.post('/zoom-out', (req, res) => {
+  var leftSamples = [];
+  var rightSamples = [];
+
+  var offset = 44;
+  while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
+    offset+=4;
+  } range *= 2;
+  if(range >= 40) range = 40;
+  for(var i = start; i < (start+(range*44100)); i++) {
+    // interpret pulse modulation
+    var left1 = buff[(offset+start*4)+(i*4)+0];
+    var left2 = buff[(offset+start*4)+(i*4)+1];
+    var right1 = buff[(offset+start*4)+(i*4)+2];
+    var right2 = buff[(offset+start*4)+(i*4)+3];
+
+    var left = left1+(left2*256);
+    var right = right1+(right2*256);
+
+    // convert unsigned bit values to 16 bit signed
+    if(left&0x8000) {
+      left=-((~left&0x7fff)+1);
+    } if(right&0x8000) {
+      right=-((~right&0x7fff)+1);
+    } leftSamples.push(left);
+    rightSamples.push(right);
+  } const responseObj = {
+    left_samples: leftSamples,
+    right_samples: rightSamples
+  }; res.status(200).json(responseObj); return;
+});
+
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).send('No file uploaded.');

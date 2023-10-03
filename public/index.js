@@ -78,11 +78,47 @@ function goAhead() {
 }
 
 function zoomIn() {
-    
+    console.log("hi i am zooming in and i have been called");
+    fetch('/zoom-in', {
+        method: 'POST',
+        body: "kablooey",
+    })
+    .then( response => { if(response.ok) {
+        console.log("response is okay");
+        return response.json(); }
+    })
+    .then( json => {
+        console.log("json is being routed");
+        console.log(json);
+        leftWVF = json.left_samples; 
+        rightWVF = json.right_samples;
+        drawWaveform();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function zoomOut() {
-    
+    console.log("hi i am zooming in and i have been called");
+    fetch('/zoom-out', {
+        method: 'POST',
+        body: "kablooey",
+    })
+    .then( response => { if(response.ok) {
+        console.log("response is okay");
+        return response.json(); }
+    })
+    .then( json => {
+        console.log("json is being routed");
+        console.log(json);
+        leftWVF = json.left_samples; 
+        rightWVF = json.right_samples;
+        drawWaveform();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 
