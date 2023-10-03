@@ -35,7 +35,7 @@ app.post('/fast-forward', (req, res) => {
     offset+=4;
   } start += (range*44100);
   if(start > ((buff.length/4)-(range*44100))) start = ((buff.length/4)-(range*44100));
-  for(var i = start; i < (start+(range*44100)); i++) {
+  for(var i = 0; i < (range*44100); i++) {
     // interpret pulse modulation
     var left1 = buff[(offset+start*4)+(i*4)+0];
     var left2 = buff[(offset+start*4)+(i*4)+1];
@@ -69,7 +69,7 @@ app.post('/backtrack', (req, res) => {
     offset+=4;
   } start -= (range*44100);
   if(start < 0) start = 0;
-  for(var i = start; i < (start+(range*44100)); i++) {
+  for(var i = 0; i < (range*44100); i++) {
     // interpret pulse modulation
     var left1 = buff[(offset+start*4)+(i*4)+0];
     var left2 = buff[(offset+start*4)+(i*4)+1];
@@ -103,7 +103,7 @@ app.post('/zoom-in', (req, res) => {
     offset+=4;
   } range /= 2;
   if(range < 0.63) range = 0.625;
-  for(var i = start; i < (start+(range*44100)); i++) {
+  for(var i = 0; i < (range*44100); i++) {
     // interpret pulse modulation
     var left1 = buff[(offset+start*4)+(i*4)+0];
     var left2 = buff[(offset+start*4)+(i*4)+1];
@@ -137,7 +137,7 @@ app.post('/zoom-out', (req, res) => {
     offset+=4;
   } range *= 2;
   if(range >= 40) range = 40;
-  for(var i = start; i < (start+(range*44100)); i++) {
+  for(var i = 0; i < (range*44100); i++) {
     // interpret pulse modulation
     var left1 = buff[(offset+start*4)+(i*4)+0];
     var left2 = buff[(offset+start*4)+(i*4)+1];
