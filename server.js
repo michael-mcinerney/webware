@@ -3,14 +3,18 @@ const url = require('url');
 const multer = require('multer');
 const path = require('path');
 const lame = require('node-lame').Lame;
+const session = require('express-session');
 
 // Configure Multer to specify where to store uploaded files
 const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage: storage });
 
-var buff = null;
-var range = 5;
-var start = 0;
+// Configure session through express
+app.use(session({ resave: true, saveUninitialized: true }));
+
+// var buff = null;
+// var range = 5;
+// var start = 0;
 
 const express    = require('express'),
       app        = express(),
@@ -27,20 +31,22 @@ app.get('/', (req, res) => {
 });
 
 app.post('/fast-forward', (req, res) => {
+  const buff = req.session.buff;
+  const range = req.session.range;
   var leftSamples = [];
   var rightSamples = [];
 
   var offset = 44;
   while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
     offset+=4;
-  } start += (range*44100);
-  if(start > ((buff.length/4)-(range*44100))) start = ((buff.length/4)-(range*44100));
+  } req.session.start += (range*44100);
+  if(req.session.start > ((buff.length/4)-(range*44100))) req.session.start = ((buff.length/4)-(range*44100));
   for(var i = 0; i < (range*44100); i++) {
     // interpret pulse modulation
-    var left1 = buff[(offset+start*4)+(i*4)+0];
-    var left2 = buff[(offset+start*4)+(i*4)+1];
-    var right1 = buff[(offset+start*4)+(i*4)+2];
-    var right2 = buff[(offset+start*4)+(i*4)+3];
+    var left1 = buff[(offset+req.session.start*4)+(i*4)+0];
+    var left2 = buff[(offset+req.session.start*4)+(i*4)+1];
+    var right1 = buff[(offset+req.session.start*4)+(i*4)+2];
+    var right2 = buff[(offset+req.session.start*4)+(i*4)+3];
 
     var left = left1+(left2*256);
     var right = right1+(right2*256);
@@ -56,25 +62,27 @@ app.post('/fast-forward', (req, res) => {
     left_samples: leftSamples,
     right_samples: rightSamples,
     scope: range,
-    position: (start/44100)
+    position: (req.session.start/44100)
   }; res.status(200).json(responseObj); return;
 });
 
 app.post('/backtrack', (req, res) => {
+  const buff = req.session.buff;
+  const range = req.session.range;
   var leftSamples = [];
   var rightSamples = [];
 
   var offset = 44;
   while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
     offset+=4;
-  } start -= (range*44100);
-  if(start < 0) start = 0;
+  } req.session.start -= (range*44100);
+  if(req.session.start < 0) req.session.start = 0;
   for(var i = 0; i < (range*44100); i++) {
     // interpret pulse modulation
-    var left1 = buff[(offset+start*4)+(i*4)+0];
-    var left2 = buff[(offset+start*4)+(i*4)+1];
-    var right1 = buff[(offset+start*4)+(i*4)+2];
-    var right2 = buff[(offset+start*4)+(i*4)+3];
+    var left1 = buff[(offset+req.session.start*4)+(i*4)+0];
+    var left2 = buff[(offset+req.session.start*4)+(i*4)+1];
+    var right1 = buff[(offset+req.session.start*4)+(i*4)+2];
+    var right2 = buff[(offset+req.session.start*4)+(i*4)+3];
 
     var left = left1+(left2*256);
     var right = right1+(right2*256);
@@ -90,20 +98,22 @@ app.post('/backtrack', (req, res) => {
     left_samples: leftSamples,
     right_samples: rightSamples,
     scope: range,
-    position: (start/44100)
+    position: (req.session.start/44100)
   }; res.status(200).json(responseObj); return;
 });
 
 app.post('/zoom-in', (req, res) => {
+  const buff = req.session.buff;
+  const start = req.session.start;
   var leftSamples = [];
   var rightSamples = [];
 
   var offset = 44;
   while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
     offset+=4;
-  } range /= 2;
-  if(range < 0.63) range = 0.625;
-  for(var i = 0; i < (range*44100); i++) {
+  } req.session.range /= 2;
+  if(req.session.range < 0.63) req.session.range = 0.625;
+  for(var i = 0; i < (req.session.range*44100); i++) {
     // interpret pulse modulation
     var left1 = buff[(offset+start*4)+(i*4)+0];
     var left2 = buff[(offset+start*4)+(i*4)+1];
@@ -123,21 +133,23 @@ app.post('/zoom-in', (req, res) => {
   } const responseObj = {
     left_samples: leftSamples,
     right_samples: rightSamples,
-    scope: range,
+    scope: req.session.range,
     position: (start/44100)
   }; res.status(200).json(responseObj); return;
 });
 
 app.post('/zoom-out', (req, res) => {
+  const buff = req.session.buff;
+  const start = req.session.start;
   var leftSamples = [];
   var rightSamples = [];
 
   var offset = 44;
   while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
     offset+=4;
-  } range *= 2;
-  if(range >= 40) range = 40;
-  for(var i = 0; i < (range*44100); i++) {
+  } req.session.range *= 2;
+  if(req.session.range >= 40) req.session.range = 40;
+  for(var i = 0; i < (req.session.range*44100); i++) {
     // interpret pulse modulation
     var left1 = buff[(offset+start*4)+(i*4)+0];
     var left2 = buff[(offset+start*4)+(i*4)+1];
@@ -157,7 +169,7 @@ app.post('/zoom-out', (req, res) => {
   } const responseObj = {
     left_samples: leftSamples,
     right_samples: rightSamples,
-    scope: range,
+    scope: req.session.range,
     position: (start/44100)
   }; res.status(200).json(responseObj); return;
 });
@@ -184,8 +196,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
   decoder.decode()
     .then(() => {
       // Decoding finished
-      buff = decoder.getBuffer();
-      console.log(buff);
+      req.session.buff = decoder.getBuffer();
+      const buff = req.session.buff;
 
       var leftSamples = [];
       var rightSamples = [];
@@ -193,8 +205,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
       var offset = 44;
       while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
         offset+=4;
-      } start = 0; range = 5;
-      for(var i = 0; i < (range*44100); i++) {
+      } req.session.start = 0; req.session.range = 5;
+      for(var i = 0; i < (req.session.range*44100); i++) {
         // interpret pulse modulation
         var left1 = buff[offset+(i*4)+0];
         var left2 = buff[offset+(i*4)+1];
@@ -215,8 +227,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
         left_samples: leftSamples,
         right_samples: rightSamples,
         total_length: ((buff.length/4)/44100),
-        scope: range,
-        position: (start/44100)
+        scope: req.session.range,
+        position: (req.session.start/44100)
       }; res.status(200).json(responseObj); return;
 
       // graph elements from server
