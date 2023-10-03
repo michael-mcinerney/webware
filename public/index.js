@@ -24,6 +24,67 @@ playAudio.addEventListener("click", () => audioPlayback());
 const audioControls = document.getElementById("audio-controls");
 audioControls.style.display = "none";
 
+const backwards = document.getElementById("backwardButton");
+const forwards = document.getElementById("forwardButton");
+const outZoom = document.getElementById("zoomOutButton");
+const inZoom = document.getElementById("zoomInButton");
+
+backwards.addEventListener("click", () => goBack());
+forwards.addEventListener("click", () => goAhead());
+outZoom.addEventListener("click", () => zoomOut());
+inZoom.addEventListener("click", () => zoomIn());
+
+function goBack() {
+    fetch('/backtrack', {
+        method: 'POST',
+        body: "kablooey",
+    })
+    .then( response => { if(response.ok) {
+        console.log("response is okay");
+        return response.json(); }
+    })
+    .then( json => {
+        console.log("json is being routed");
+        console.log(json);
+        leftWVF = json.left_samples; 
+        rightWVF = json.right_samples;
+        drawWaveform();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function goAhead() {
+    fetch('/fast-forward', {
+        method: 'POST',
+        body: "kablooey",
+    })
+    .then( response => { if(response.ok) {
+        console.log("response is okay");
+        return response.json(); }
+    })
+    .then( json => {
+        console.log("json is being routed");
+        console.log(json);
+        leftWVF = json.left_samples; 
+        rightWVF = json.right_samples;
+        drawWaveform();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function zoomIn() {
+    
+}
+
+function zoomOut() {
+    
+}
+
+
 function audioPlayback() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const source = audioContext.createBufferSource();
