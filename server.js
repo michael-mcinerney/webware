@@ -55,8 +55,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
       var offset = 44;
       while(buff[offset]==0 && buff[offset+1]==0 && buff[offset+2]==0 && buff[offset+3]==0) {
         offset+=4;
-      } const range = (1102500-110250);
-      for(var i = 0; i < range; i++) {
+      } for(var i = 0; i < 220500; i++) {
         // interpret pulse modulation
         var left1 = buff[offset+(i*4)+0];
         var left2 = buff[offset+(i*4)+1];
@@ -73,11 +72,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
           right=-((~right&0x7fff)+1);
         } leftSamples.push(left);
         rightSamples.push(right);
-      } // Linear interpolation for smoother amplitude values
-      // var interpolationFactor = i / range; // Normalize i to range [0, 1]
-      // leftSamples.push(left * (1 - interpolationFactor) + leftSamples[i - 1] * interpolationFactor);
-      // rightSamples.push(right * (1 - interpolationFactor) + rightSamples[i - 1] * interpolationFactor);
-      const responseObj = {
+      } const responseObj = {
         left_samples: leftSamples,
         right_samples: rightSamples
       }; res.status(200).json(responseObj); return;
