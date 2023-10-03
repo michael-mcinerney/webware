@@ -9,7 +9,7 @@ const session = require('express-session');
 const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage: storage });
 
-// var buff = null;
+var buff = null;
 // var range = 5;
 // var start = 0;
 
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/fast-forward', (req, res) => {
-  const buff = req.session.buff;
+  //const buff = req.session.buff;
   const range = req.session.range;
   var leftSamples = [];
   var rightSamples = [];
@@ -67,7 +67,7 @@ app.post('/fast-forward', (req, res) => {
 });
 
 app.post('/backtrack', (req, res) => {
-  const buff = req.session.buff;
+  //const buff = req.session.buff;
   const range = req.session.range;
   var leftSamples = [];
   var rightSamples = [];
@@ -103,7 +103,7 @@ app.post('/backtrack', (req, res) => {
 });
 
 app.post('/zoom-in', (req, res) => {
-  const buff = req.session.buff;
+  //const buff = req.session.buff;
   const start = req.session.start;
   var leftSamples = [];
   var rightSamples = [];
@@ -139,7 +139,7 @@ app.post('/zoom-in', (req, res) => {
 });
 
 app.post('/zoom-out', (req, res) => {
-  const buff = req.session.buff;
+  //const buff = req.session.buff;
   const start = req.session.start;
   var leftSamples = [];
   var rightSamples = [];
@@ -196,8 +196,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
   decoder.decode()
     .then(() => {
       // Decoding finished
-      req.session.buff = decoder.getBuffer();
-      const buff = req.session.buff;
+      buff = decoder.getBuffer();
+      //const buff = req.session.buff;
 
       var leftSamples = [];
       var rightSamples = [];
