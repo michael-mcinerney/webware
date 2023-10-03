@@ -53,6 +53,7 @@ function audioPlayback() {
     source.start();
 
     // Update the progress bar dynamically
+    const durationInSeconds = buffer.duration;
     const startTime = audioContext.currentTime;
     const endTime = startTime + durationInSeconds;
 
@@ -78,7 +79,6 @@ function audioPlayback() {
     source.start();
 
     // Optional: You can stop the audio after a specified duration (in seconds)
-    const durationInSeconds = buffer.duration;
     source.stop(audioContext.currentTime + durationInSeconds);
 }
 
