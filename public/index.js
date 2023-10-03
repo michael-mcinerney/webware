@@ -34,6 +34,8 @@ forwards.addEventListener("click", () => goAhead());
 outZoom.addEventListener("click", () => zoomOut());
 inZoom.addEventListener("click", () => zoomIn());
 
+var audioInfo = document.getElementById("info-capture");
+
 function goBack() {
     fetch('/backtrack', {
         method: 'POST',
@@ -242,6 +244,7 @@ upload.onclick = function(event) {
             console.log(json);
             leftWVF = json.left_samples; 
             rightWVF = json.right_samples;
+            audioInfo.textContent = `Total MP3 Duration: ${json.total_length} seconds`;
             drawWaveform();
 
             playAudio.style.display = defaultDisplay;

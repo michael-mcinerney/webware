@@ -205,7 +205,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
         rightSamples.push(right);
       } const responseObj = {
         left_samples: leftSamples,
-        right_samples: rightSamples
+        right_samples: rightSamples,
+        total_length: ((buff.length/4)/44100)
       }; res.status(200).json(responseObj); return;
 
       // graph elements from server
