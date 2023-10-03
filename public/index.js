@@ -56,6 +56,7 @@ function goBack() {
 }
 
 function goAhead() {
+    console.log("hi i am going ahead and i have been called");
     fetch('/fast-forward', {
         method: 'POST',
         body: "kablooey",
