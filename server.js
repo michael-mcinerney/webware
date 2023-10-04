@@ -10,9 +10,6 @@ const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage: storage });
 
 var buff_dict = {};
-//var buff = null;
-// var range = 5;
-// var start = 0;
 
 const express    = require('express'),
       app        = express(),

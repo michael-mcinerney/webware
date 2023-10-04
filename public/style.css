@@ -6,13 +6,3 @@
     height:454px;
     border: 2px solid black;
 }
-
-.progress-container {
-    margin-top: 10px;
-}
-
-.progress-bar {
-    height: 20px;
-    background-color: #007bff; /* Bootstrap primary color */
-    width: 0%;
-}

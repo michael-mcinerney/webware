@@ -1,76 +1,124 @@
-# Fitness Tracker
+# 2D Audio Visualizer Documentation
+Welcome to the 2D Audio Visualizer documentation. This page provides a detailed overview of the project structure, file contents, and the high-level design of the application.
 
-## Overview
+## Directory Structure
+```java
+.
+├── public/
+│   ├── index.js
+│   ├── style.css
+├── views/
+│   ├── index.html
+├── package.json
+├── server.js
+```
 
-This is a two-tier web application built using Node.js, Express, MongoDB, and Bootstrap. The Fitness Tracker allows users to record and manage their training sessions, providing features for adding, editing, and deleting sessions.
+## Files
+### 1. public/index.js
+The index.js file contains the client-side JavaScript code responsible for the functionality of the 2D audio visualizer. Here's a breakdown of its key components:
 
-## Application Overview
+**UI Interaction:**
 
-The Fitness Tracker is a web application designed to help users record and manage their training sessions. Whether you're into running, cycling, or any other form of exercise, this app allows you to keep a log of your training progress effortlessly.
+- Event listeners are implemented for various UI elements, such as color pickers, opacity sliders, playback controls, and zoom buttons.
+- Users can control audio playback, navigate through the audio track, and adjust the visualizer settings.
 
-### Features
+**Server Communication:**
 
-#### 1. User Authentication
+- Functions like goBack, goAhead, zoomIn, and zoomOut make POST requests to the server to fetch updated audio samples based on user interactions.
 
-Before you start using the Fitness Tracker, you'll need to log in. The application offers two authentication options:
+**Audio Playback:**
 
-- **GitHub OAuth**: Click the "Login with GitHub" button to log in using your GitHub account. If you don't have one, you can create a new GitHub account. Once logged in, your training data will be associated with your GitHub identity.
+- The audioPlayback function uses the Web Audio API to play the audio based on the selected samples.
 
-- **Local Account**: If you prefer not to use GitHub, you can also create a local account. Just click the "Register" button and provide a unique username and password. This account will be used to store your training sessions.
+**Canvas Drawing:**
 
-Note that session persistence has not been implemented to its full extent, so you will need to log in each time the page is reloaded. Data, however, will persist across sessions. Interestingly, navigating to auth-success.html will load in the training sessions of whoever was last logged into a browser tab. This is not permanent, though the length of time for which that persists has not yet been determined.
+- The drawWaveform function is responsible for rendering the audio waveform on the HTML canvas, taking into account user-selected colors and opacities.
 
-#### 2. Managing Training Sessions
+**File Upload:**
 
-Once logged in, you can access the main features of the Fitness Tracker:
+- The upload button triggers a file upload action, and the selected audio file is sent to the server for processing.
 
-- **Add Session**: Click the "Add Session" button to record a new training session. Fill in the details such as the date, training type (e.g., running, cycling), distance (in miles), time (in minutes), and heart rate (beats per minute). Click "Add Session," and your training data will be saved.
 
-- **Edit Session**: To make changes to an existing training session, navigate to the "Training Sessions" table. Click the "Edit" button next to the session you want to modify. The session details will populate the input fields, allowing you to update any information. After editing, click "Save" to update the session.
+### 2. public/style.css
+- The style.css file defines the styles for the 2D audio visualizer, with a specific focus on the positioning and appearance of the canvas element. Notably, it centers the canvas horizontally and sets its height and border.
 
-- **Delete Session**: If you wish to remove a training session from your records, simply click the "Delete" button next to the session in the "Training Sessions" table. Confirm the deletion, and the session will be permanently removed.
 
-#### 3. Viewing Training History
+### 3. views/index.html
+- The index.html file provides the structure for the visualizer's user interface. Key elements include:
 
-- **Comprehensive Viewing**: The Fitness Tracker also provides a comprehensive view of your training history. All your recorded sessions are displayed in a table, showing key details such as date, training type, distance, time, and heart rate, alongside an additional extrapolated speed. This allows you to track your progress over time and make informed decisions about your fitness routine.
+**File Upload Form:**
 
-- **MongoDB Database**: Utilized MongoDB to persistently store training session data between server sessions.
+- Users can select an audio file to upload, and the form triggers the server-side upload handling.
 
-## Navigating the Application
+**Playback Controls:**
 
-1. **Login/Registration**: When you first access the application, you'll be presented with a login screen. Choose your preferred authentication method (GitHub OAuth or local registration) to access the main features.
+- Buttons for uploading, playing audio, navigating backward and forward, and zooming in and out.
 
-2. **Adding a Session**: To add a new training session, click the "Add Session" button. Fill in the session details and click "Add Session" to save.
+**Dashboard Section:**
 
-3. **Editing a Session**: To modify an existing training session, go to the "Training Sessions" table. Click the "Edit" button next to the session you want to update. Make your changes and click "Save."
+- UI elements for configuring left and right waveform colors and opacities.
 
-4. **Deleting a Session**: If you want to delete a training session, click the "Delete" button next to the session in the "Training Sessions" table. Confirm the deletion to remove the session.
+**Waveform Canvas:**
 
-5. **Viewing Training History**: You can review your entire training history in the "Training Sessions" table. This table displays all your recorded sessions with relevant details.
+- The canvas element where the audio waveform is visually represented.
 
-The Fitness Tracker is designed to be intuitive and user-friendly, helping you manage and monitor your fitness journey effectively.
 
-## Technical Achievements
+### 4. package.json
+The package.json file describes the project's metadata and dependencies. Key configurations include:
 
-- **OAuth Authentication**: [10pts] Implemented GitHub OAuth authentication using the `passport-github` strategy, allowing users to log in with their GitHub accounts.
+**Dependencies:**
 
-- **Lighthouse Audit**: [5pts] Achieved a perfect score of 100% in all four categories (Performance, Best Practices, Accessibility, and SEO) on the Google Lighthouse audit at `a3-michael-mcinerney.glitch.me`.
-  <img src="https://cdn.glitch.global/daf8f679-ba70-4fad-b11d-79ef7fd13274/Screen%20Shot%202023-09-25%20at%2010.55.41%20AM.png?v=1695653764360">
-## Dependencies
+- Express, Multer, Node-lame are utilized for server-side functionality.
 
-- **Express**: Used as the server framework to handle routes and requests.
-- **MongoDB**: Employed for data storage and retrieval.
-- **Bootstrap**: Utilized for CSS styling and layout.
+**Scripts:**
 
-## Getting Started
+- The start script is defined to run the server using node server.js.
 
-To run the Fitness Tracker locally, follow these steps:
 
-1. Clone this repository.
-2. Install the required dependencies using `npm install`.
-3. Start the server with `npm start`.
-4. Access the application in your web browser at `http://localhost:3000`.
+### 5. server.js
+The server.js file contains the server-side logic for handling various aspects of the audio visualizer. Notable components include:
 
-## Author
+**File Upload Handling:**
 
-Michael McInerney
+- Multer is configured to store uploaded files in memory, and the uploaded audio file is processed for decoding and waveform generation.
+
+**Audio Processing Endpoints:**
+
+- Server-side endpoints (/fast-forward, /backtrack, /zoom-in, /zoom-out) handle requests for fetching specific segments of the audio waveform based on user interactions.
+
+**Session Management:**
+
+- Express-session is used for managing user sessions, including storing uploaded audio file data and playback position.
+
+**Audio Decoding:**
+
+- Node-lame is employed to decode the uploaded audio file, and the resulting buffer is stored for waveform generation.
+
+**Server Initialization:**
+
+- The server is set up to listen on port 3001.
+
+## High-Level Design
+The 2D audio visualizer employs a client-server architecture. The client-side (implemented in public/index.js and public/style.css) is responsible for user interaction, audio playback, and waveform visualization. The server-side (implemented in server.js) handles file uploads, audio processing, and responds to user interaction requests.
+
+### Key Technical Achievements:
+
+**Audio Decoding:**
+
+- Node-lame is used for efficient decoding of audio files, allowing for smooth audio playback and waveform generation.
+
+**Real-time Interaction:**
+
+- Server endpoints enable real-time interaction with the audio track, allowing users to navigate, zoom, and adjust settings dynamically.
+
+**Session Management:**
+
+- Express-session is utilized to manage user sessions, ensuring a seamless experience and maintaining state across interactions.
+
+**Canvas Drawing:**
+
+The HTML canvas is employed for rendering the audio waveform, providing an intuitive and visually appealing representation of the audio data.
+
+**WebAudio API:**
+
+- WebAudio is used on the client side, using the array with amplitude values for the waveform passed to the client to enable the actual playback of fetched audio.
